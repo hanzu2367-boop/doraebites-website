@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doraebites | Info</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .info-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .info-main {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow);
+      margin-top: 20px;
+    }
+
+    .info-main h2 {
+      font-size: 1.8rem;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .info-main .info-sub {
+      color: var(--gray);
+      margin-bottom: 30px;
+    }
+
+    .info-logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .info-logo img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--white);
+      box-shadow: 0 8px 24px rgba(21, 101, 192, 0.3);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, var(--light), #f0f8ff);
+      border-radius: var(--radius);
+      padding: 24px;
+      border-bottom: 4px solid var(--primary);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(33, 150, 243, 0.2);
+    }
+
+    .info-card h3 {
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(33, 150, 243, 0.2);
+    }
+
+    .info-card p {
+      color: var(--dark);
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .info-card .info-label {
+      color: var(--gray);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-back {
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="site-music" autoplay loop preload="auto" playsinline>
+    <source src="doraemon-theme-song.mp3" type="audio/mpeg">
+  </audio>
+  <script src="music.js"></script>
+  <script src="interaction-lock.js"></script>
+
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">🍰</span>
+        <span class="logo-text">Doraebites</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#menu">Menu</a>
+        <a href="index.html#order">Order</a>
+        <a href="index.html#track">Track Order</a>
+        <a href="info.html" style="font-weight:700;text-decoration:underline;text-underline-offset:6px;">Info</a>
+        <a href="admin.html" class="login-btn">🔒 Log In</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="info-page">
+    <div class="info-main">
+      <div class="info-logo">
+        <img src="doraebites-new-logo.png" alt="Doraebites Logo">
+      </div>
+      <h2>Info</h2>
+      <p class="info-sub">Everything you need to know about Doraebites</p>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Made By</h3>
+          <p><strong>Jerome Ilano</strong></p>
+          <p>Section 12 - Lynx</p>
+        </div>
+
+        <div class="info-card">
+          <h3>Our Location</h3>
+          <p><strong>Building 3</strong></p>
+          <p>Room 132 • 12 - Lynx</p>
+        </div>
+
+        <div class="info-card">
+          <h3>How to Order</h3>
+          <p><span class="info-label">Step 1:</span> Go to the Home page</p>
+          <p><span class="info-label">Step 2:</span> Fill out the pre-order form</p>
+          <p><span class="info-label">Step 3:</span> Save your receipt code</p>
+          <p><span class="info-label">Step 4:</span> Pick up your order at Building 3, Room 132</p>
+        </div>
+
+        <div class="info-card">
+          <h3>Track Your Order</h3>
+          <p><span class="info-label">Receipt Code:</span> Use your code</p>
+          <p><span class="info-label">Status:</span> Scheduled → Preparing → Serving</p>
+          <p><span class="info-label">Pickup:</span> Building 3, Room 132</p>
+        </div>
+      </div>
+
+      <div class="info-actions" style="text-align:center;margin-top:30px;">
+        <a href="index.html" class="btn btn-primary">Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 Doraebites. All rights reserved. Made with 💛</p>
+  </footer>
+
+</body>
+</html>
