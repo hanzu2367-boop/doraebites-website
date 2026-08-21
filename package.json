@@ -1,0 +1,14 @@
+{
+  "name": "doraebites",
+  "version": "1.0.0",
+  "description": "Doraebites pre-order website with admin panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "jimp": "^1.6.1",
+    "sharp": "^0.35.3"
+  }
+}
