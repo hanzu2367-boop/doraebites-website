@@ -2,16 +2,23 @@
 let menuItems = [];
 let selectedItems = {};
 
+const fallbackMenuItems = [
+  { id: 'cake', name: 'Japanese Cake', price: 30, emoji: '🍰', image: 'cake-japanese.png' },
+  { id: 'drink', name: 'Lemonade with Yakult', price: 15, emoji: '🥤', image: 'drink-lemonade.png' }
+];
+
 // ---------- Load Menu ----------
 async function loadMenu() {
   try {
     const res = await fetch('/api/menu');
+    if (!res.ok) throw new Error('Menu API unavailable');
     menuItems = await res.json();
-    renderMenu();
-    renderItemSelector();
   } catch (err) {
-    console.error('Error loading menu:', err);
+    menuItems = fallbackMenuItems;
   }
+
+  renderMenu();
+  renderItemSelector();
 }
 
 function renderMenu() {
