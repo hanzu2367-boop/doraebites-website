@@ -42,6 +42,7 @@ body {
   color: var(--dark);
   background: linear-gradient(180deg, #e3f2fd 0%, #f5fbff 30%, #fffaf7 100%);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 a {
@@ -1199,6 +1200,15 @@ html {
 }
 
 @media (max-width: 420px) {
+  .nav-links {
+    gap: 8px;
+    font-size: 0.75rem;
+  }
+
+  .nav-links a:nth-child(4) {
+    display: none;
+  }
+
   .logo-text {
     font-size: 1rem;
   }
