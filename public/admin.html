@@ -465,6 +465,112 @@
       background: var(--primary);
       border-color: var(--primary);
     }
+
+    @media (max-width: 768px) {
+      .admin-panel {
+        padding-bottom: 30px;
+      }
+
+      .admin-header,
+      .orders-container,
+      .admin-stats {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .admin-header .header-right,
+      .admin-header .header-right button {
+        width: 100%;
+      }
+
+      .admin-header .header-right {
+        flex-wrap: wrap;
+      }
+
+      .admin-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px 8px;
+      }
+
+      .stat-card .num {
+        font-size: 1.55rem;
+      }
+
+      .orders-toolbar {
+        align-items: stretch;
+      }
+
+      .filter-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .filter-tab {
+        padding: 9px 6px;
+      }
+
+      .order-card-header {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .order-customer-info {
+        gap: 8px 12px;
+      }
+
+      .order-actions,
+      .order-actions button,
+      .status-select {
+        width: 100%;
+      }
+
+      .order-actions {
+        flex-wrap: wrap;
+      }
+
+      .custom-msg-area,
+      .custom-msg-input,
+      .custom-msg-area button {
+        width: 100%;
+      }
+
+      .login-section {
+        width: calc(100% - 32px);
+        margin: 40px auto;
+        padding: 34px 20px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .admin-nav .nav-links {
+        display: none;
+      }
+
+      .notice-banner {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+      }
+
+      .admin-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .order-card-body,
+      .order-card-header {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
   </style>
 </head>
 <body class="admin-body">

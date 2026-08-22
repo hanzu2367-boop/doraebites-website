@@ -1050,6 +1050,33 @@ html {
 }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .nav-container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero {
+    gap: 28px;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.6rem;
+  }
+
+  .section {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .menu-grid,
+  .item-selector {
+    gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     flex-direction: column-reverse;
@@ -1078,6 +1105,56 @@ html {
     display: none;
   }
 
+  .nav-container {
+    padding: 7px 14px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    gap: 7px;
+  }
+
+  .nav-links {
+    margin-left: auto;
+  }
+
+  .nav-links a {
+    white-space: nowrap;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 36px 16px 48px;
+  }
+
+  .hero-content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 8vw, 2.45rem);
+  }
+
+  .hero-content p {
+    font-size: 0.95rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-image,
+  .hero-image-inner {
+    width: min(82vw, 360px);
+  }
+
+  .hero-main-img {
+    width: 100%;
+    height: auto;
+  }
+
   .section {
     padding: 40px 16px;
   }
@@ -1086,12 +1163,56 @@ html {
     padding: 20px;
   }
 
+  .menu-grid,
+  .item-selector,
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-card-image {
+    height: 180px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
   .track-form {
     flex-direction: column;
     margin: 0 20px 30px;
   }
 
   .track-form button {
+    width: 100%;
+  }
+
+  .track-form {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .track-card,
+  .info-main {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .login-btn {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .section-title h2 {
+    font-size: 1.7rem;
+  }
+
+  .hero-buttons .btn {
     width: 100%;
   }
 }
