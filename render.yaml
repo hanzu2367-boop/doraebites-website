@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: doraebites-website
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
