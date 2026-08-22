@@ -1125,7 +1125,8 @@ html {
 
   .hero {
     min-height: auto;
-    padding: 36px 16px 48px;
+    padding: 20px 16px 26px;
+    gap: 16px;
   }
 
   .hero-content {
@@ -1153,6 +1154,7 @@ html {
 
   .hero-main-img {
     width: 100%;
+    max-height: 210px;
     height: auto;
   }
 
