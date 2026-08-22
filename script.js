@@ -125,6 +125,11 @@ document.getElementById('order-form').addEventListener('submit', async (e) => {
 
   if (!confirm(confirmMsg)) return;
 
+  if (window.location.hostname.endsWith('github.io')) {
+    alert('Ordering is unavailable on GitHub Pages because it cannot run the order server. Run the Doraebites Node server and open http://localhost:3000 to place orders.');
+    return;
+  }
+
   try {
     const res = await fetch('/api/orders', {
       method: 'POST',
