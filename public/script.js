@@ -10,7 +10,7 @@ const fallbackMenuItems = [
   { id: 'topping_marshmallows', name: 'Mini Marshmallows', price: 5, emoji: '🫧', category: 'Japanese Cake' },
   { id: 'topping_sprinkles', name: 'Choco/Rainbow Sprinkles', price: 5, emoji: '✨', category: 'Japanese Cake' },
   { id: 'topping_powder', name: 'Powdered Milk/Choco', price: 5, emoji: '🥛', category: 'Japanese Cake' },
-  { id: 'drink', name: 'Lemonade (12oz)', price: 25, emoji: '🥤', image: 'ChatGPT Image Aug 23, 2026, 11_06_49 PM.png', category: 'Drinks' },
+  { id: 'drink', name: 'Lemonade (12oz)', price: 20, emoji: '🥤', image: 'ChatGPT Image Aug 23, 2026, 11_06_49 PM.png', category: 'Drinks' },
   { id: 'yakult', name: 'Add Yakult', price: 15, emoji: '🥛', category: 'Drinks' },
 ];
 
