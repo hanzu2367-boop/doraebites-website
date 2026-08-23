@@ -1,6 +1,9 @@
 // ---------- Global State ----------
 let menuItems = [];
 let selectedItems = {};
+let trackedReceiptCode = '';
+let trackingStream = null;
+let lastTrackedStatus = null;
 
 const fallbackMenuItems = [
   { id: 'cake', name: 'Japanese Cake', price: 30, emoji: '🍰', image: 'ChatGPT Image Aug 23, 2026, 11_03_30 PM.png', category: 'Japanese Cake' },
@@ -245,7 +248,7 @@ document.getElementById('success-modal').addEventListener('click', (e) => {
 });
 
 // ---------- Track Order ----------
-async function trackOrder() {
+async function trackOrder(silent = false) {
   const code = document.getElementById('track-code').value.trim();
   const resultDiv = document.getElementById('track-result');
 
@@ -254,7 +257,7 @@ async function trackOrder() {
     return;
   }
 
-  resultDiv.innerHTML = `<div class="track-card error">Searching...</div>`;
+  if (!silent) resultDiv.innerHTML = `<div class="track-card error">Searching...</div>`;
 
   try {
     const res = await fetch(`/api/orders/track/${encodeURIComponent(code)}`);
@@ -265,10 +268,27 @@ async function trackOrder() {
       return;
     }
 
+    if (trackingStream && trackedReceiptCode !== data.order.receiptCode) {
+      trackingStream.close();
+      trackingStream = null;
+    }
     renderTrackResult(data.order, resultDiv);
+    trackedReceiptCode = data.order.receiptCode;
+    connectTrackingStream();
   } catch (err) {
     resultDiv.innerHTML = `<div class="track-card error">Network error. Please try again.</div>`;
   }
+}
+
+function connectTrackingStream() {
+  if (trackingStream || !trackedReceiptCode) return;
+  trackingStream = new EventSource(`/api/orders/stream/${encodeURIComponent(trackedReceiptCode)}`);
+  trackingStream.onmessage = () => trackOrder(true);
+  trackingStream.onerror = () => {
+    trackingStream.close();
+    trackingStream = null;
+    setTimeout(connectTrackingStream, 3000);
+  };
 }
 
 function escapeHtml(str) {
@@ -345,11 +365,13 @@ function renderTrackResult(order, container) {
     ? '<div class="track-msg" style="background:#f8d7da;border-color:#e74c3c;color:#721c24">❌ This order has been cancelled.</div>'
     : '';
 
+  const statusChanged = lastTrackedStatus !== null && lastTrackedStatus !== order.status;
+  lastTrackedStatus = order.status;
   container.innerHTML = `
-    <div class="track-card"${order.status === 'cancelled' ? ' style="border-top-color:#e74c3c"' : ''}>
+    <div class="track-card${statusChanged ? ' status-changed' : ''}"${order.status === 'cancelled' ? ' style="border-top-color:#e74c3c"' : ''}>
       <div class="track-card-header">
         <div class="track-receipt">Receipt Code: <span>${order.receiptCode}</span></div>
-        <span class="status-badge ${order.status}">${statusText}</span>
+        <span class="status-badge ${order.status}${statusChanged ? ' status-pulse' : ''}">${statusText}</span>
       </div>
 
       <div class="track-order-info">

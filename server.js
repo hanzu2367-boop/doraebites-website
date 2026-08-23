@@ -6,6 +6,7 @@ const app = express();
 const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'orders.json');
 const adminOrderStreams = new Set();
+const customerOrderStreams = new Map();
 
 // Admin credentials (change password here)
 const ADMIN_PASSWORD = 'doraebites@12_';
@@ -54,6 +55,11 @@ function saveOrders(orders) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(orders, null, 2));
     for (const stream of adminOrderStreams) {
       stream.write(`data: ${JSON.stringify({ updatedAt: Date.now() })}\n\n`);
+    }
+    for (const [receiptCode, streams] of customerOrderStreams) {
+      for (const stream of streams) {
+        stream.write(`data: ${JSON.stringify({ receiptCode, updatedAt: Date.now() })}\n\n`);
+      }
     }
   } catch (err) {
     console.error('Error saving orders:', err);
@@ -163,6 +169,30 @@ app.get('/api/orders/track/:code', (req, res) => {
   };
 
   res.json({ order: response });
+});
+
+// Notify a customer when their tracked order changes.
+app.get('/api/orders/stream/:code', (req, res) => {
+  const receiptCode = req.params.code.toUpperCase().trim();
+  const orders = loadOrders();
+  if (!orders.some(order => order.receiptCode === receiptCode)) {
+    return res.status(404).end();
+  }
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+  if (!customerOrderStreams.has(receiptCode)) customerOrderStreams.set(receiptCode, new Set());
+  customerOrderStreams.get(receiptCode).add(res);
+  res.write(`data: ${JSON.stringify({ connected: true })}\n\n`);
+
+  req.on('close', () => {
+    const streams = customerOrderStreams.get(receiptCode);
+    if (!streams) return;
+    streams.delete(res);
+    if (!streams.size) customerOrderStreams.delete(receiptCode);
+  });
 });
 
 app.post('/api/orders/:code/reply', (req, res) => {
