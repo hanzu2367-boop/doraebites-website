@@ -12,8 +12,15 @@ const ADMIN_PASSWORD = 'doraebites@12_';
 
 // Menu items
 const MENU = [
-  { id: 'cake', name: 'Japanese Cake', price: 30, emoji: '🍰', image: 'cake-japanese.png' },
-  { id: 'drink', name: 'Lemonade with Yakult', price: 15, emoji: '🥤', image: 'drink-lemonade.png' }
+  { id: 'cake', name: 'Japanese Cake', price: 30, emoji: '🍰', image: 'ChatGPT Image Aug 23, 2026, 11_03_30 PM.png', category: 'Japanese Cake' },
+  { id: 'topping_maple', name: 'Drizzle Maple Syrup', price: 8, emoji: '🍁', category: 'Japanese Cake' },
+  { id: 'topping_strawberry', name: 'Strawberry Syrup', price: 10, emoji: '🍓', category: 'Japanese Cake' },
+  { id: 'topping_chocolate', name: 'Chocolate Syrup', price: 10, emoji: '🍫', category: 'Japanese Cake' },
+  { id: 'topping_marshmallows', name: 'Mini Marshmallows', price: 5, emoji: '🫧', category: 'Japanese Cake' },
+  { id: 'topping_sprinkles', name: 'Choco/Rainbow Sprinkles', price: 5, emoji: '✨', category: 'Japanese Cake' },
+  { id: 'topping_powder', name: 'Powdered Milk/Choco', price: 5, emoji: '🥛', category: 'Japanese Cake' },
+  { id: 'drink', name: 'Lemonade (12oz)', price: 25, emoji: '🥤', image: 'ChatGPT Image Aug 23, 2026, 11_06_49 PM.png', category: 'Drinks' },
+  { id: 'yakult', name: 'Add Yakult', price: 15, emoji: '🥛', category: 'Drinks' },
 ];
 
 // Order statuses

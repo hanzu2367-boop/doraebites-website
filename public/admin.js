@@ -15,7 +15,14 @@ const STATUS_LABELS = {
 
 const MENU_NAMES = {
   cake: 'Japanese Cake',
-  drink: 'Lemonade with Yakult'
+  topping_maple: 'Drizzle Maple Syrup',
+  topping_strawberry: 'Strawberry Syrup',
+  topping_chocolate: 'Chocolate Syrup',
+  topping_marshmallows: 'Mini Marshmallows',
+  topping_sprinkles: 'Choco/Rainbow Sprinkles',
+  topping_powder: 'Powdered Milk/Choco',
+  drink: 'Lemonade (12oz)',
+  yakult: 'Add Yakult',
 };
 
 // ---------- Login ----------

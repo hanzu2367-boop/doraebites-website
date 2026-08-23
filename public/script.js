@@ -3,9 +3,65 @@ let menuItems = [];
 let selectedItems = {};
 
 const fallbackMenuItems = [
-  { id: 'cake', name: 'Japanese Cake', price: 30, emoji: '🍰', image: 'cake-japanese.png' },
-  { id: 'drink', name: 'Lemonade with Yakult', price: 15, emoji: '🥤', image: 'drink-lemonade.png' }
+  { id: 'cake', name: 'Japanese Cake', price: 30, emoji: '🍰', image: 'ChatGPT Image Aug 23, 2026, 11_03_30 PM.png', category: 'Japanese Cake' },
+  { id: 'topping_maple', name: 'Drizzle Maple Syrup', price: 8, emoji: '🍁', category: 'Japanese Cake' },
+  { id: 'topping_strawberry', name: 'Strawberry Syrup', price: 10, emoji: '🍓', category: 'Japanese Cake' },
+  { id: 'topping_chocolate', name: 'Chocolate Syrup', price: 10, emoji: '🍫', category: 'Japanese Cake' },
+  { id: 'topping_marshmallows', name: 'Mini Marshmallows', price: 5, emoji: '🫧', category: 'Japanese Cake' },
+  { id: 'topping_sprinkles', name: 'Choco/Rainbow Sprinkles', price: 5, emoji: '✨', category: 'Japanese Cake' },
+  { id: 'topping_powder', name: 'Powdered Milk/Choco', price: 5, emoji: '🥛', category: 'Japanese Cake' },
+  { id: 'drink', name: 'Lemonade (12oz)', price: 25, emoji: '🥤', image: 'ChatGPT Image Aug 23, 2026, 11_06_49 PM.png', category: 'Drinks' },
+  { id: 'yakult', name: 'Add Yakult', price: 15, emoji: '🥛', category: 'Drinks' },
 ];
+
+let currentCategoryFilter = null;
+
+function renderMenu() {
+  const grid = document.getElementById('menu-grid');
+
+  // Group items by category
+  const groups = {};
+  menuItems.filter(item => !isAddOn(item)).forEach(item => {
+    const cat = item.category || 'Other';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(item);
+  });
+
+  // Render each category with a heading. Clicking the category or an item shows that category in the selector.
+  grid.innerHTML = Object.keys(groups).map(cat => `
+    <div class="menu-category">
+      <h3 class="menu-category-title">${cat}</h3>
+      <div class="menu-category-grid">
+        ${groups[cat].map(item => `
+          <div class="menu-card" onclick="showCategory('${cat}','${item.id}')">
+            <div class="menu-card-emoji">${item.image ? `<img src="${item.image}" alt="${item.name}">` : (item.emoji || '🍽️')}</div>
+            <div class="menu-card-body">
+              <h3>${item.name}</h3>
+              <div class="menu-price">₱${item.price}.00</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function showCategory(cat, itemId) {
+  // Set filter and render selector with only items from this category
+  currentCategoryFilter = cat;
+  renderItemSelector();
+  // Scroll to selector for convenience
+  const el = document.getElementById('item-selector');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+
+  // If itemId provided and it's a main item (like cake), optionally open its qty controls
+  if (itemId) {
+    setTimeout(() => {
+      const card = document.getElementById(`item-${itemId}`);
+      if (card) card.click();
+    }, 300);
+  }
+}
 
 // ---------- Load Menu ----------
 async function loadMenu() {
@@ -21,56 +77,73 @@ async function loadMenu() {
   renderItemSelector();
 }
 
-function renderMenu() {
-  const grid = document.getElementById('menu-grid');
-  grid.innerHTML = menuItems.map(item => `
-    <div class="menu-card">
-      <div class="menu-card-image">
-        ${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<span class="menu-card-emoji">${item.emoji}</span>`}
-      </div>
-      <div class="menu-card-body">
-        <h3>${item.name}</h3>
-        <p>Fresh and delicious, prepared with care.</p>
-        <div class="menu-price">₱${item.price}.00</div>
-      </div>
-    </div>
-  `).join('');
-}
 
-function renderItemSelector() {
+function renderItemSelector(filterCategory) {
   const container = document.getElementById('item-selector');
-  container.innerHTML = menuItems.map(item => `
-    <div class="item-card" id="item-${item.id}" onclick="toggleItem('${item.id}')">
+  const items = (typeof filterCategory === 'string')
+    ? menuItems.filter(i => (i.category || 'Other') === filterCategory && !isAddOn(i))
+    : menuItems.filter(i => !isAddOn(i));
+
+  container.innerHTML = items.map(item => `
+    <div class="item-card${selectedItems[item.id] ? ' selected' : ''}" id="item-${item.id}" onclick="toggleItem('${item.id}')">
       <div class="item-card-top">
-        ${item.image ? `<img src="${item.image}" alt="${item.name}" class="item-thumb">` : `<span class="item-card-emoji">${item.emoji}</span>`}
+        <span class="item-card-emoji">${item.image ? `<img class="item-thumb" src="${item.image}" alt="${item.name}">` : (item.emoji || '')}</span>
         <span class="item-card-price">₱${item.price}.00</span>
       </div>
       <strong>${item.name}</strong>
-      <div class="quantity-controls" style="display:none" id="qty-${item.id}" onclick="event.stopPropagation()">
+      <div class="quantity-controls" style="display:${selectedItems[item.id] ? 'flex' : 'none'}" id="qty-${item.id}" onclick="event.stopPropagation()">
         <button type="button" class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
         <span class="qty-value" id="qty-val-${item.id}">1</span>
         <button type="button" class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
       </div>
+      ${selectedItems[item.id] && !isAddOn(item) ? renderInlineAddons(item) : ''}
     </div>
   `).join('');
+
 }
 
 // ---------- Item Selection ----------
+
+function isAddOn(item) {
+  return item.id.startsWith('topping_') || item.id === 'yakult';
+}
+
+function renderInlineAddons(item) {
+  const addons = item.category === 'Drinks'
+    ? menuItems.filter(addon => addon.id === 'yakult')
+    : menuItems.filter(addon => addon.id.startsWith('topping_'));
+  return `<div class="inline-addons" onclick="event.stopPropagation()"><strong>${item.category === 'Drinks' ? 'Lemonade Add-ons' : 'Japanese Cake Add-ons'}</strong>${addons.map(addon => `
+    <label>
+      <input type="checkbox" onchange="toggleAddOn('${addon.id}')" ${selectedItems[addon.id] ? 'checked' : ''}>
+      <span>${addon.name} (₱${addon.price})</span>
+    </label>
+  `).join('')}</div>`;
+}
+
+function toggleAddOn(addonId) {
+  if (selectedItems[addonId]) delete selectedItems[addonId];
+  else selectedItems[addonId] = 1;
+  updateTotal();
+  renderItemSelector();
+}
+
 function toggleItem(itemId) {
   const card = document.getElementById(`item-${itemId}`);
   const qtyControls = document.getElementById(`qty-${itemId}`);
-
   if (selectedItems[itemId]) {
     delete selectedItems[itemId];
-    card.classList.remove('selected');
-    qtyControls.style.display = 'none';
+    if (card) card.classList.remove('selected');
+    if (qtyControls) qtyControls.style.display = 'none';
   } else {
     selectedItems[itemId] = 1;
-    card.classList.add('selected');
-    qtyControls.style.display = 'flex';
-    document.getElementById(`qty-val-${itemId}`).textContent = 1;
+    if (card) card.classList.add('selected');
+    if (qtyControls) qtyControls.style.display = 'flex';
+    const qtyEl = document.getElementById(`qty-val-${itemId}`);
+    if (qtyEl) qtyEl.textContent = 1;
   }
   updateTotal();
+
+  renderItemSelector();
 }
 
 function changeQty(itemId, delta) {
@@ -92,7 +165,8 @@ function updateTotal() {
     const item = menuItems.find(m => m.id === id);
     if (item) total += item.price * qty;
   }
-  document.getElementById('order-total').textContent = `₱${total.toFixed(2)}`;
+  const totalEl = document.getElementById('order-total');
+  if (totalEl) totalEl.textContent = `₱${total.toFixed(2)}`;
 }
 
 // ---------- Place Order ----------
