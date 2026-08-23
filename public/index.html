@@ -145,7 +145,8 @@
         <div class="modal-icon">🎉</div>
         <h3>Order Placed Successfully!</h3>
         <p>Your receipt code is:</p>
-        <div class="receipt-code" id="new-receipt-code">ABC123</div>
+        <div class="receipt-code" id="new-receipt-code" role="button" tabindex="0" onclick="copyReceiptCode()" onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); copyReceiptCode(); }">ABC123</div>
+        <p class="receipt-reminder">Click the receipt code to copy it, or take a screenshot.</p>
         <p class="modal-note">Save your receipt code to track your order status. Show this code when picking up your order!</p>
         <button class="btn btn-primary" onclick="closeModal()">Got it!</button>
       </div>

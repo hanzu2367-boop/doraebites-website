@@ -913,6 +913,20 @@ a {
   border-radius: 12px;
   margin: 16px 0;
   border: 2px dashed var(--primary);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.receipt-code:hover,
+.receipt-code:focus {
+  background: var(--primary-light);
+  transform: scale(1.03);
+  outline: none;
+}
+
+.receipt-reminder {
+  font-size: 0.85rem;
+  color: var(--gray);
 }
 
 .modal-note {
@@ -1359,6 +1373,39 @@ html {
     grid-template-columns: 1fr;
   }
 
+  .menu-category {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .menu-category-title {
+    font-size: 1rem;
+  }
+
+  .item-selector {
+    padding: 10px;
+  }
+
+  .item-card {
+    padding: 14px;
+  }
+
+  .item-card-top {
+    gap: 10px;
+  }
+
+  .item-card-price {
+    font-size: 0.9rem;
+  }
+
+  .inline-addons {
+    padding: 10px;
+  }
+
+  .inline-addons label {
+    align-items: start;
+  }
+
   .menu-card-image {
     height: 180px;
   }
@@ -1385,6 +1432,41 @@ html {
   .track-card,
   .info-main {
     padding: 24px 18px;
+  }
+
+  .track-card-header,
+  .track-item,
+  .track-total {
+    gap: 10px;
+  }
+
+  .track-card-header,
+  .track-item {
+    align-items: flex-start;
+  }
+
+  .track-item > span:first-child,
+  .track-receipt {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .track-timeline {
+    padding: 0;
+  }
+
+  .timeline-label {
+    font-size: 0.7rem;
+  }
+
+  .modal-content {
+    padding: 32px 20px;
+  }
+
+  .receipt-code {
+    font-size: 1.65rem;
+    letter-spacing: 3px;
+    padding: 14px 8px;
   }
 }
 

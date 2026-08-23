@@ -242,6 +242,16 @@ function closeModal() {
   document.getElementById('success-modal').classList.remove('show');
 }
 
+async function copyReceiptCode() {
+  const receiptCode = document.getElementById('new-receipt-code').textContent.trim();
+  try {
+    await navigator.clipboard.writeText(receiptCode);
+    alert('Receipt code copied!');
+  } catch (err) {
+    alert(`Your receipt code is: ${receiptCode}`);
+  }
+}
+
 // Close modal on click outside
 document.getElementById('success-modal').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) closeModal();
@@ -251,6 +261,13 @@ document.getElementById('success-modal').addEventListener('click', (e) => {
 async function trackOrder(silent = false) {
   const code = document.getElementById('track-code').value.trim();
   const resultDiv = document.getElementById('track-result');
+
+  if (!silent) {
+    if (trackingStream) trackingStream.close();
+    trackingStream = null;
+    trackedReceiptCode = '';
+    lastTrackedStatus = null;
+  }
 
   if (!code) {
     resultDiv.innerHTML = `<div class="track-card error">Please enter your receipt code.</div>`;
